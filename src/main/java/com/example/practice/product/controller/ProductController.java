@@ -1,6 +1,9 @@
 package com.example.practice.product.controller;
 
 
+import com.example.practice.product.model.Product;
+import com.example.practice.product.model.ProductDTO;
+import com.example.practice.product.model.UpdateProductCommand;
 import com.example.practice.product.service.CreateProductService;
 import com.example.practice.product.service.DeleteProductService;
 import com.example.practice.product.service.GetProductService;
@@ -8,8 +11,11 @@ import com.example.practice.product.service.UpdateProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController
-@RequestMapping("/base")
+
 public class ProductController {
 
    private final CreateProductService createProductService;
@@ -24,24 +30,24 @@ public class ProductController {
         this.getProductService = getProductService;
     }
 
-    @GetMapping
-    public ResponseEntity<String> getProducts(){
+    @GetMapping("/products")
+    public ResponseEntity<List<ProductDTO>> getProducts(){
         return getProductService.execute(null);
     }
 
-    @PostMapping
-    public ResponseEntity<String> createProduct(){
-        return createProductService.execute(null);
+    @PostMapping("/products")
+    public ResponseEntity<ProductDTO> createProduct(@RequestBody Product product){
+        return createProductService.execute(product);
     }
 
-    @DeleteMapping
-    public ResponseEntity<String> deleteProduct(){
-     return deleteProductService.execute(null);
+    @DeleteMapping("/products/{id}")
+    public ResponseEntity<Optional<Product>> deleteProduct(@PathVariable Long id){
+     return deleteProductService.execute(id);
     }
 
-    @PutMapping
-    public ResponseEntity<String> updateProduct(){
-     return updateProductService.execute(null);
+    @PutMapping("/products/{id}")
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody Product product){
+     return updateProductService.execute(new UpdateProductCommand(id,product));
     }
 
 
