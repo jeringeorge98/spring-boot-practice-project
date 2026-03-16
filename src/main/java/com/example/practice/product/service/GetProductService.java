@@ -24,4 +24,5 @@ public class GetProductService implements Query<Void,List<ProductDTO>> {
         List<ProductDTO> productDTOS = products.stream().map(ProductDTO::new).toList();
         return ResponseEntity.status(HttpStatus.OK).body(productDTOS);
     }
+
 }

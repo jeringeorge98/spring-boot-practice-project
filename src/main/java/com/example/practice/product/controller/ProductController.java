@@ -4,10 +4,7 @@ package com.example.practice.product.controller;
 import com.example.practice.product.model.Product;
 import com.example.practice.product.model.ProductDTO;
 import com.example.practice.product.model.UpdateProductCommand;
-import com.example.practice.product.service.CreateProductService;
-import com.example.practice.product.service.DeleteProductService;
-import com.example.practice.product.service.GetProductService;
-import com.example.practice.product.service.UpdateProductService;
+import com.example.practice.product.service.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,17 +19,24 @@ public class ProductController {
    private final UpdateProductService updateProductService;
    private final DeleteProductService deleteProductService;
    private final GetProductService getProductService;
+   private final SearchProductService searchProductService;
    // constructor injection
-    public ProductController(CreateProductService createProductService, UpdateProductService updateProductService, DeleteProductService deleteProductService, GetProductService getProductService) {
+    public ProductController(CreateProductService createProductService, UpdateProductService updateProductService, DeleteProductService deleteProductService, GetProductService getProductService, SearchProductService searchProductService) {
         this.createProductService = createProductService;
         this.updateProductService = updateProductService;
         this.deleteProductService = deleteProductService;
         this.getProductService = getProductService;
+        this.searchProductService = searchProductService;
     }
 
     @GetMapping("/products")
     public ResponseEntity<List<ProductDTO>> getProducts(){
         return getProductService.execute(null);
+    }
+
+    @GetMapping("/product")
+    public ResponseEntity<List<ProductDTO>> getProductByName(@RequestParam String name){
+        return searchProductService.execute(name);
     }
 
     @PostMapping("/products")
