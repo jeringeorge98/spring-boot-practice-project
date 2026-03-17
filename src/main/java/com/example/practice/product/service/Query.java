@@ -8,5 +8,5 @@ import java.util.List;
 
 // read only services
 public interface Query<I,O> {
-    ResponseEntity<List<ProductDTO>> execute(I input);
+    ResponseEntity<O> execute(I input);
 }

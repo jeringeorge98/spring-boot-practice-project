@@ -1,6 +1,7 @@
 package com.example.practice.product.controller;
 
 
+import com.example.practice.product.ProductRepository;
 import com.example.practice.product.model.Product;
 import com.example.practice.product.model.ProductDTO;
 import com.example.practice.product.model.UpdateProductCommand;
@@ -20,13 +21,15 @@ public class ProductController {
    private final DeleteProductService deleteProductService;
    private final GetProductService getProductService;
    private final SearchProductService searchProductService;
+   private final GetSingleProductService getSingleProductService;
    // constructor injection
-    public ProductController(CreateProductService createProductService, UpdateProductService updateProductService, DeleteProductService deleteProductService, GetProductService getProductService, SearchProductService searchProductService) {
+    public ProductController(CreateProductService createProductService, UpdateProductService updateProductService, DeleteProductService deleteProductService, GetProductService getProductService, SearchProductService searchProductService, GetSingleProductService getSingleProductService) {
         this.createProductService = createProductService;
         this.updateProductService = updateProductService;
         this.deleteProductService = deleteProductService;
         this.getProductService = getProductService;
         this.searchProductService = searchProductService;
+        this.getSingleProductService = getSingleProductService;
     }
 
     @GetMapping("/products")
@@ -34,9 +37,13 @@ public class ProductController {
         return getProductService.execute(null);
     }
 
-    @GetMapping("/product")
+    @GetMapping("/product/search")
     public ResponseEntity<List<ProductDTO>> getProductByName(@RequestParam String name){
         return searchProductService.execute(name);
+    }
+    @GetMapping("/product/{id}")
+    public ResponseEntity<ProductDTO> getSingleProduct(@PathVariable Long id){
+        return getSingleProductService.execute(id);
     }
 
     @PostMapping("/products")
