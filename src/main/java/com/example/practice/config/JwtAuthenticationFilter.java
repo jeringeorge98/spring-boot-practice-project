@@ -39,10 +39,11 @@ try {
     }
 
     private String getJwtToken(HttpServletRequest request){
-        String token = request.getHeader("Authorization");
-        if(token.isBlank() || !token.startsWith("Bearer")){
-            return token;
-        }
-        return token.substring(7);
+//        String token = request.getHeader("Authorization");
+//        if(token.isBlank() || !token.startsWith("Bearer")){
+//            return token;
+//        }
+//        return token.substring(7);
+        return "";
     }
 }

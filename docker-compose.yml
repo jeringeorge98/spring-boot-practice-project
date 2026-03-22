@@ -1,0 +1,53 @@
+version: "3.8"
+
+services:
+  db:
+    container_name: sql_database
+    image: mysql:8.0
+    ports:
+      - 3307:3306
+    environment:
+      - MYSQL_DATABASE=practicedb
+      - MYSQL_ROOT_PASSWORD=mysql1234
+      - MYSQL_PASSWORD=mysql1234
+      - MYSQL_USER=root
+    volumes:
+      - app_data:/var/lib/mysql
+    networks:
+      - practice
+
+
+  app:
+    container_name: app_container
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+    build:
+      dockerfile: .Dockerfile
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/practicedb
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=mysql1234
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+
+
+    ports:
+      - 8080:8080
+
+
+    networks:
+      - practice
+
+volumes:
+ app_data:
+
+networks:
+  practice:
+    driver: bridge
+
+
+

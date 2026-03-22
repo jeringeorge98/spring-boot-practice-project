@@ -15,7 +15,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     // need to preserve the naming condition findBy*ColumnName*Containing
     List<Product> findByNameContaining(String name);
 
-    @Query("Select p from products WHERE p.name LIKE %keyword% OR p.description LIKE %keyword%")
-    List<Product> findByNameOrDescriptionContaining(@Param("keyword") String name);
+    @Query("SELECT p FROM Product p WHERE p.name LIKE :keyword OR p.description LIKE :keyword")
+    List<Product> findByNameOrDescriptionContaining(@Param("keyword") String keyword);
+
 
 }
