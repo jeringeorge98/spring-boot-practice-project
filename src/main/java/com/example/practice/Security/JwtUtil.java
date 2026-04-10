@@ -1,4 +1,4 @@
-package com.example.practice.config;
+package com.example.practice.Security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -8,15 +8,12 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import javax.crypto.SecretKey;
 import java.io.InputStream;
 import java.security.KeyStore;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.time.Instant;
 import java.util.Date;
-
-import static io.jsonwebtoken.Jwts.parser;
 
 @Component
 public class JwtUtil {

@@ -31,6 +31,11 @@ public class ProductController {
         this.searchProductService = searchProductService;
         this.getSingleProductService = getSingleProductService;
     }
+    
+    @GetMapping("/")
+    public String healthCheck(){
+        return "Everything Works fine !";
+    }
 
     @GetMapping("/products")
     public ResponseEntity<List<ProductDTO>> getProducts(){
