@@ -14,18 +14,13 @@ import java.util.Collections;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private final JwtUtil jwtUtil;
-
-    public JwtAuthenticationFilter(JwtUtil jwtUtil) {
-        this.jwtUtil = jwtUtil;
-    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 try {
     String token = getJwtToken(request);
-    if(jwtUtil.validateToken(token)){
-       String username = jwtUtil.extractUsername(token);
+    if(token!=null && JwtUtil.validateToken(token)){
+       String username = JwtUtil.getUsernameFromToken(token);
        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username,null, Collections.emptyList());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -39,11 +34,11 @@ try {
     }
 
     private String getJwtToken(HttpServletRequest request){
-//        String token = request.getHeader("Authorization");
-//        if(token.isBlank() || !token.startsWith("Bearer")){
-//            return token;
-//        }
-//        return token.substring(7);
-        return "";
+        String token = request.getHeader("Authorization");
+        if(token.isBlank() || !token.startsWith("Bearer")){
+            return null;
+        }
+        return token.substring(7);
+
     }
 }

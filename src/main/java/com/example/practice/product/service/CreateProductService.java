@@ -23,6 +23,7 @@ public class CreateProductService implements Command<Product,ProductDTO>{
             ProductDTO productDTO = new ProductDTO(input);
             return ResponseEntity.status(HttpStatus.OK).body(productDTO);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
